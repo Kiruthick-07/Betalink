@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
 import logo2 from "../assets/logo2.png";
 import bgimg1 from "../assets/bgimg1.jpg";
+import { HiBeaker, HiBugAnt, HiLightBulb, HiCheckCircle, HiUsers, HiShieldCheck, HiRocketLaunch } from "react-icons/hi2";
+import Footer from "../Components/Footer";
 
 const Welcome = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -105,7 +112,7 @@ const Welcome = () => {
     },
 
     heroImage: {
-      height: "600px",
+      height: "700px",
       width: "100%",
       objectFit: "cover",
       display: "block",
@@ -133,7 +140,7 @@ const Welcome = () => {
     },
 
     heroTitle: {
-      fontSize: isMobile ? "26px" : "48px",
+      fontSize: isMobile ? "26px" : "54px",
       fontWeight: "700",
       lineHeight: "1.25",
       textShadow: "2px 2px 8px rgba(0,0,0,0.6)",
@@ -148,10 +155,10 @@ const Welcome = () => {
     },
 
     heroButton: {
-      marginTop: "12px",
+      marginTop: "20px",
       backgroundColor: "#000",
       color: "#fff",
-      padding: isMobile ? "12px 28px" : "14px 32px",
+      padding: isMobile ? "12px 28px" : "16px 32px",
       fontSize: isMobile ? "14px" : "16px",
       fontWeight: "600",
       borderRadius: "8px",
@@ -159,6 +166,290 @@ const Welcome = () => {
       cursor: "pointer",
       transition: "all 0.3s ease",
     },
+
+    /* ================= ABOUT ================= */
+    aboutSection: {
+      padding: isMobile ? "60px 20px" : "100px 60px",
+      backgroundColor: "#fff",
+      fontFamily: "'Poppins', sans-serif",
+    },
+
+    aboutContainer: {
+      maxWidth: "1200px",
+      margin: "0 auto",
+    },
+
+    aboutHeader: {
+      textAlign: "center",
+      marginBottom: isMobile ? "40px" : "60px",
+    },
+
+    aboutTitle: {
+      fontSize: isMobile ? "32px" : "48px",
+      fontWeight: "700",
+      color: "#000",
+      marginBottom: "16px",
+    },
+
+    aboutDescription: {
+      fontSize: isMobile ? "16px" : "18px",
+      color: "#6b7280",
+      lineHeight: "1.6",
+      maxWidth: "800px",
+      margin: "0 auto",
+    },
+
+    featuresGrid: {
+      display: "grid",
+      gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
+      gap: isMobile ? "24px" : "32px",
+      marginTop: isMobile ? "40px" : "60px",
+    },
+
+    featureCard: {
+      padding: isMobile ? "28px" : "36px",
+      backgroundColor: "#f9fafb",
+      borderRadius: "12px",
+      transition: "all 0.3s ease",
+      border: "1px solid #e5e7eb",
+    },
+
+    featureIcon: {
+      fontSize: "40px",
+      marginBottom: "20px",
+    },
+
+    featureTitle: {
+      fontSize: isMobile ? "20px" : "22px",
+      fontWeight: "600",
+      color: "#000",
+      marginBottom: "12px",
+    },
+
+    featureText: {
+      fontSize: "15px",
+      color: "#6b7280",
+      lineHeight: "1.6",
+    },
+
+    /* ================= ADDITIONAL ABOUT ================= */
+    additionalAboutSection: {
+      padding: isMobile ? "60px 20px" : "100px 60px",
+      backgroundColor: "#f9fafb",
+      fontFamily: "'Poppins', sans-serif",
+    },
+
+    additionalAboutContainer: {
+      maxWidth: "1200px",
+      margin: "0 auto",
+    },
+
+    aboutGrid: {
+      display: "grid",
+      gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+      gap: isMobile ? "40px" : "60px",
+      alignItems: "center",
+    },
+
+    aboutContentLeft: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "24px",
+    },
+
+    aboutSectionTitle: {
+      fontSize: isMobile ? "36px" : "52px",
+      fontWeight: "700",
+      color: "#000",
+      lineHeight: "1.2",
+      marginBottom: "16px",
+    },
+
+    aboutSectionText: {
+      fontSize: isMobile ? "16px" : "18px",
+      color: "#4b5563",
+      lineHeight: "1.8",
+      marginBottom: "12px",
+    },
+
+    statsContainer: {
+      display: "grid",
+      gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(2, 1fr)",
+      gap: "20px",
+      marginTop: "32px",
+    },
+
+    statCard: {
+      padding: "24px",
+      backgroundColor: "#fff",
+      borderRadius: "12px",
+      border: "1px solid #e5e7eb",
+      textAlign: "center",
+      transition: "all 0.3s ease",
+    },
+
+    statNumber: {
+      fontSize: isMobile ? "32px" : "40px",
+      fontWeight: "700",
+      color: "#000",
+      marginBottom: "8px",
+    },
+
+    statLabel: {
+      fontSize: "14px",
+      color: "#6b7280",
+      fontWeight: "500",
+    },
+
+    aboutContentRight: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "20px",
+    },
+
+    benefitItem: {
+      display: "flex",
+      gap: "16px",
+      padding: "20px",
+      backgroundColor: "#fff",
+      borderRadius: "12px",
+      border: "1px solid #e5e7eb",
+      transition: "all 0.3s ease",
+    },
+
+    benefitIcon: {
+      fontSize: "24px",
+      color: "#000",
+      flexShrink: 0,
+    },
+
+    benefitContent: {
+      flex: 1,
+    },
+
+    benefitTitle: {
+      fontSize: "18px",
+      fontWeight: "600",
+      color: "#000",
+      marginBottom: "8px",
+    },
+
+    benefitDescription: {
+      fontSize: "14px",
+      color: "#6b7280",
+      lineHeight: "1.6",
+    },
+
+    /* ================= CONTACT ================= */
+    contactSection: {
+      padding: isMobile ? "40px 20px" : "60px 40px",
+      backgroundColor: "#333333ff",
+      fontFamily: "'Poppins', sans-serif",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      margin: "0 auto",
+      borderRadius: "20px",
+      maxWidth: "85%",
+    },
+
+    contactContainer: {
+      maxWidth: "800px",
+      margin: "0 auto",
+      width: "100%",
+    },
+
+    contactHeader: {
+      textAlign: "center",
+      marginBottom: isMobile ? "40px" : "50px",
+    },
+
+    contactTitle: {
+      fontSize: isMobile ? "32px" : "48px",
+      fontWeight: "700",
+      color: "#fff",
+      marginBottom: "16px",
+    },
+
+    contactDescription: {
+      fontSize: isMobile ? "16px" : "18px",
+      color: "#e5e7eb",
+      lineHeight: "1.6",
+    },
+
+    contactForm: {
+      backgroundColor: "#fff",
+      padding: isMobile ? "32px 24px" : "48px 40px",
+      borderRadius: "12px",
+      border: "1px solid #e5e7eb",
+    },
+
+    formGroup: {
+      marginBottom: "24px",
+    },
+
+    label: {
+      display: "block",
+      fontSize: "14px",
+      fontWeight: "600",
+      color: "#000",
+      marginBottom: "8px",
+    },
+
+    input: {
+      width: "100%",
+      padding: "12px 16px",
+      fontSize: "15px",
+      border: "1px solid #d1d5db",
+      borderRadius: "8px",
+      fontFamily: "'Poppins', sans-serif",
+      transition: "border-color 0.3s ease",
+      outline: "none",
+    },
+
+    textarea: {
+      width: "100%",
+      padding: "12px 16px",
+      fontSize: "15px",
+      border: "1px solid #d1d5db",
+      borderRadius: "8px",
+      fontFamily: "'Poppins', sans-serif",
+      transition: "border-color 0.3s ease",
+      outline: "none",
+      resize: "vertical",
+      minHeight: "120px",
+    },
+
+    submitButton: {
+      width: "100%",
+      backgroundColor: "#000",
+      color: "#fff",
+      padding: "14px 32px",
+      fontSize: "16px",
+      fontWeight: "600",
+      borderRadius: "8px",
+      border: "none",
+      cursor: "pointer",
+      fontFamily: "'Poppins', sans-serif",
+      transition: "all 0.3s ease",
+    },
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission here
+    console.log("Form submitted:", formData);
+    // Reset form
+    setFormData({ name: "", email: "", message: "" });
+    alert("Thank you for your message! We'll get back to you soon.");
   };
 
   const NavLinks = () =>
@@ -247,6 +538,343 @@ const Welcome = () => {
           </button>
         </div>
       </div>
+
+      {/* ABOUT SECTION */}
+      <div style={styles.aboutSection}>
+        <div style={styles.aboutContainer}>
+          <div style={styles.aboutHeader}>
+            <h2 style={styles.aboutTitle}>Why Choose BetaLink?</h2>
+            <p style={styles.aboutDescription}>
+              Connect with real users who provide valuable insights before your product launch.
+              Get comprehensive testing, detailed bug reports, and actionable feedback to ensure
+              your product is market-ready.
+            </p>
+          </div>
+
+          <div style={styles.featuresGrid}>
+            <div
+              style={styles.featureCard}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div style={styles.featureIcon}>
+                <HiBeaker />
+              </div>
+              <h3 style={styles.featureTitle}>Real User Testing</h3>
+              <p style={styles.featureText}>
+                Get your product tested by actual users in real-world scenarios.
+                Discover usability issues before they impact your launch.
+              </p>
+            </div>
+
+            <div
+              style={styles.featureCard}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div style={styles.featureIcon}>
+                <HiBugAnt />
+              </div>
+              <h3 style={styles.featureTitle}>Detailed Bug Reports</h3>
+              <p style={styles.featureText}>
+                Receive comprehensive bug reports with screenshots, steps to reproduce,
+                and severity ratings to prioritize fixes.
+              </p>
+            </div>
+
+            <div
+              style={styles.featureCard}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-4px)";
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.1)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              <div style={styles.featureIcon}>
+                <HiLightBulb />
+              </div>
+              <h3 style={styles.featureTitle}>Actionable Feedback</h3>
+              <p style={styles.featureText}>
+                Gain valuable insights and suggestions from testers to improve
+                user experience and product functionality.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      {/* CONTACT SECTION */}
+      <div style={styles.contactSection}>
+        <div style={styles.contactContainer}>
+          <div style={styles.contactHeader}>
+            <h2 style={styles.contactTitle}>Get In Touch</h2>
+            <p style={styles.contactDescription}>
+              Have questions? We'd love to hear from you. Send us a message and
+              we'll respond as soon as possible.
+            </p>
+          </div>
+
+          <form style={styles.contactForm} onSubmit={handleSubmit}>
+            <div style={styles.formGroup}>
+              <label htmlFor="name" style={styles.label}>
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                style={styles.input}
+                required
+                onFocus={(e) => (e.target.style.borderColor = "#000")}
+                onBlur={(e) => (e.target.style.borderColor = "#d1d5db")}
+              />
+            </div>
+
+            <div style={styles.formGroup}>
+              <label htmlFor="email" style={styles.label}>
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                style={styles.input}
+                required
+                onFocus={(e) => (e.target.style.borderColor = "#000")}
+                onBlur={(e) => (e.target.style.borderColor = "#d1d5db")}
+              />
+            </div>
+
+            <div style={styles.formGroup}>
+              <label htmlFor="message" style={styles.label}>
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                style={styles.textarea}
+                required
+                onFocus={(e) => (e.target.style.borderColor = "#000")}
+                onBlur={(e) => (e.target.style.borderColor = "#d1d5db")}
+              />
+            </div>
+
+            <button
+              type="submit"
+              style={styles.submitButton}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#333";
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow =
+                  "0 4px 12px rgba(0,0,0,0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = "#000";
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* ADDITIONAL ABOUT SECTION */}
+      <div style={styles.additionalAboutSection}>
+        <div style={styles.additionalAboutContainer}>
+          <div style={styles.aboutGrid}>
+            {/* Left Column - Story & Stats */}
+            <div style={styles.aboutContentLeft}>
+              <h2 style={styles.aboutSectionTitle}>
+                Empowering Innovation Through Collaboration
+              </h2>
+              <p style={styles.aboutSectionText}>
+                BetaLink bridges the gap between developers and real-world users, creating a seamless ecosystem where products are refined through genuine feedback and rigorous testing.
+              </p>
+              <p style={styles.aboutSectionText}>
+                Our platform has helped hundreds of teams launch better products by connecting them with passionate testers who provide invaluable insights before market release.
+              </p>
+
+              {/* Statistics */}
+              <div style={styles.statsContainer}>
+                <div
+                  style={styles.statCard}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                >
+                  <div style={styles.statNumber}>500+</div>
+                  <div style={styles.statLabel}>Active Testers</div>
+                </div>
+                <div
+                  style={styles.statCard}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                >
+                  <div style={styles.statNumber}>1000+</div>
+                  <div style={styles.statLabel}>Projects Tested</div>
+                </div>
+                <div
+                  style={styles.statCard}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                >
+                  <div style={styles.statNumber}>98%</div>
+                  <div style={styles.statLabel}>Success Rate</div>
+                </div>
+                <div
+                  style={styles.statCard}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-4px)";
+                    e.currentTarget.style.boxShadow = "0 8px 20px rgba(0,0,0,0.1)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "translateY(0)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                >
+                  <div style={styles.statNumber}>24/7</div>
+                  <div style={styles.statLabel}>Support</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Benefits */}
+            <div style={styles.aboutContentRight}>
+              <div
+                style={styles.benefitItem}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateX(8px)";
+                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateX(0)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div style={styles.benefitIcon}>
+                  <HiCheckCircle />
+                </div>
+                <div style={styles.benefitContent}>
+                  <h4 style={styles.benefitTitle}>Quality Assurance</h4>
+                  <p style={styles.benefitDescription}>
+                    Ensure your product meets the highest standards with thorough testing from experienced professionals.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                style={styles.benefitItem}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateX(8px)";
+                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateX(0)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div style={styles.benefitIcon}>
+                  <HiUsers />
+                </div>
+                <div style={styles.benefitContent}>
+                  <h4 style={styles.benefitTitle}>Community Driven</h4>
+                  <p style={styles.benefitDescription}>
+                    Join a vibrant community of developers and testers working together to build better products.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                style={styles.benefitItem}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateX(8px)";
+                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateX(0)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div style={styles.benefitIcon}>
+                  <HiShieldCheck />
+                </div>
+                <div style={styles.benefitContent}>
+                  <h4 style={styles.benefitTitle}>Secure & Reliable</h4>
+                  <p style={styles.benefitDescription}>
+                    Your projects are protected with enterprise-grade security and confidentiality agreements.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                style={styles.benefitItem}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateX(8px)";
+                  e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.08)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "translateX(0)";
+                  e.currentTarget.style.boxShadow = "none";
+                }}
+              >
+                <div style={styles.benefitIcon}>
+                  <HiRocketLaunch />
+                </div>
+                <div style={styles.benefitContent}>
+                  <h4 style={styles.benefitTitle}>Fast Turnaround</h4>
+                  <p style={styles.benefitDescription}>
+                    Get comprehensive testing results quickly so you can iterate and launch faster than ever.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* FOOTER */}
+      <Footer />
     </>
   );
 };
