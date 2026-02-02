@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import logo from "../assets/logo.png";
 import logo2 from "../assets/logo2.png";
+import bgimg1 from "../assets/bgimg1.jpg";
 
 const Welcome = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -101,6 +101,20 @@ const Welcome = () => {
       borderBottom: "1px solid #e5e5e5",
       fontSize: "14px",
     },
+    herosection: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      marginTop: "30px",
+      padding: "20px",
+    },
+    heroimg: {
+      height: "600px",
+      width: "90%",
+      maxWidth: "1500px",
+      objectFit: "cover",
+      borderRadius: "12px",
+    },
   };
 
   const NavLinks = () => (
@@ -162,6 +176,10 @@ const Welcome = () => {
         <NavLinks />
         <div style={styles.login}>Log in</div>
         <div style={styles.signup}>Sign up</div>
+      </div>
+
+      <div style={styles.herosection}>
+        <img src={bgimg1} style={styles.heroimg} alt="Hero" />
       </div>
     </>
   );
