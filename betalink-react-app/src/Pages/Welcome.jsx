@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import logo2 from "../assets/logo2.png";
 import bgimg1 from "../assets/bgimg1.jpg";
 import { HiBeaker, HiBugAnt, HiLightBulb, HiCheckCircle, HiUsers, HiShieldCheck, HiRocketLaunch } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 import Footer from "../Components/Footer";
 
 const Welcome = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [visibleSections, setVisibleSections] = useState(new Set());
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,6 +19,31 @@ const Welcome = () => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Scroll animation effect
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -100px 0px",
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setVisibleSections((prev) => new Set([...prev, entry.target.id]));
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    const sections = document.querySelectorAll('[data-animate]');
+    sections.forEach((section) => observer.observe(section));
+
+    return () => {
+      sections.forEach((section) => observer.unobserve(section));
+    };
   }, []);
 
   const styles = {
@@ -76,6 +103,7 @@ const Welcome = () => {
       border: "2px solid #000",
       padding: "8px 18px",
       borderRadius: "8px",
+      color: "black",
     },
 
     signup: {
@@ -165,6 +193,18 @@ const Welcome = () => {
       border: "none",
       cursor: "pointer",
       transition: "all 0.3s ease",
+    },
+
+    /* ================= ANIMATIONS ================= */
+    animateSection: {
+      opacity: 0,
+      transform: "translateY(50px)",
+      transition: "opacity 0.8s ease-out, transform 0.8s ease-out",
+    },
+
+    animateSectionVisible: {
+      opacity: 1,
+      transform: "translateY(0)",
     },
 
     /* ================= ABOUT ================= */
@@ -452,6 +492,14 @@ const Welcome = () => {
     alert("Thank you for your message! We'll get back to you soon.");
   };
 
+  const getAnimationStyle = (sectionId) => {
+    const baseStyle = styles.animateSection;
+    const visibleStyle = styles.animateSectionVisible;
+    return visibleSections.has(sectionId)
+      ? { ...baseStyle, ...visibleStyle }
+      : baseStyle;
+  };
+
   const NavLinks = () =>
     ["Home", "Find Tester", "Find Developer", "About", "Contact"].map(
       (item) => (
@@ -485,8 +533,12 @@ const Welcome = () => {
         <div style={styles.rightGroup}>
           {!isMobile && (
             <>
-              <div style={styles.login}>Log in</div>
-              <div style={styles.signup}>Sign up</div>
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                <div style={styles.login}>Log in</div>
+              </Link>
+              <Link to="/signup" style={{ textDecoration: "none" }}>
+                <div style={styles.signup}>Sign up</div>
+              </Link>
             </>
           )}
           <div
@@ -501,8 +553,12 @@ const Welcome = () => {
       {/* MOBILE MENU */}
       <div style={styles.mobileMenu}>
         <NavLinks />
-        <div style={styles.login}>Log in</div>
-        <div style={styles.signup}>Sign up</div>
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <div style={styles.login}>Log in</div>
+        </Link>
+        <Link to="/signup" style={{ textDecoration: "none" }}>
+          <div style={styles.signup}>Sign up</div>
+        </Link>
       </div>
 
       {/* HERO */}
@@ -540,7 +596,11 @@ const Welcome = () => {
       </div>
 
       {/* ABOUT SECTION */}
-      <div style={styles.aboutSection}>
+      <div
+        id="about-section"
+        data-animate
+        style={{ ...styles.aboutSection, ...getAnimationStyle("about-section") }}
+      >
         <div style={styles.aboutContainer}>
           <div style={styles.aboutHeader}>
             <h2 style={styles.aboutTitle}>Why Choose BetaLink?</h2>
@@ -620,7 +680,11 @@ const Welcome = () => {
 
 
       {/* CONTACT SECTION */}
-      <div style={styles.contactSection}>
+      <div
+        id="contact-section"
+        data-animate
+        style={{ ...styles.contactSection, ...getAnimationStyle("contact-section") }}
+      >
         <div style={styles.contactContainer}>
           <div style={styles.contactHeader}>
             <h2 style={styles.contactTitle}>Get In Touch</h2>
@@ -703,7 +767,11 @@ const Welcome = () => {
       </div>
 
       {/* ADDITIONAL ABOUT SECTION */}
-      <div style={styles.additionalAboutSection}>
+      <div
+        id="additional-about-section"
+        data-animate
+        style={{ ...styles.additionalAboutSection, ...getAnimationStyle("additional-about-section") }}
+      >
         <div style={styles.additionalAboutContainer}>
           <div style={styles.aboutGrid}>
             {/* Left Column - Story & Stats */}
