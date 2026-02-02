@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import logo2 from "../assets/logo2.png";
 import bgimg1 from "../assets/bgimg1.jpg";
 import { HiBeaker, HiBugAnt, HiLightBulb, HiCheckCircle, HiUsers, HiShieldCheck, HiRocketLaunch } from "react-icons/hi2";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer";
+import axios from "axios";
 
 const Welcome = () => {
+  const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [menuOpen, setMenuOpen] = useState(false);
   const [visibleSections, setVisibleSections] = useState(new Set());
@@ -14,6 +16,8 @@ const Welcome = () => {
     email: "",
     message: "",
   });
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -483,13 +487,29 @@ const Welcome = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted:", formData);
-    // Reset form
-    setFormData({ name: "", email: "", message: "" });
-    alert("Thank you for your message! We'll get back to you soon.");
+    setIsSubmitting(true);
+    setSubmitStatus({ type: '', message: '' });
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/contact', formData);
+      
+      if (response.data.success) {
+        setSubmitStatus({ 
+          type: 'success', 
+          message: response.data.message 
+        });
+        setFormData({ name: "", email: "", message: "" });
+      }
+    } catch (error) {
+      setSubmitStatus({ 
+        type: 'error', 
+        message: error.response?.data?.message || 'Failed to send message. Please try again.' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const getAnimationStyle = (sectionId) => {
@@ -500,12 +520,29 @@ const Welcome = () => {
       : baseStyle;
   };
 
+  const handleNavClick = (item) => {
+    if (item === 'Home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (item === 'Find Tester') {
+      navigate('/signup');
+    } else if (item === 'Find Developer') {
+      navigate('/signup');
+    } else if (item === 'About') {
+      const aboutSection = document.getElementById('about-section');
+      aboutSection?.scrollIntoView({ behavior: 'smooth' });
+    } else if (item === 'Contact') {
+      const contactSection = document.getElementById('contact-section');
+      contactSection?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const NavLinks = () =>
     ["Home", "Find Tester", "Find Developer", "About", "Contact"].map(
       (item) => (
         <div
           key={item}
           style={styles.link}
+          onClick={() => handleNavClick(item)}
           onMouseEnter={(e) =>
             (e.currentTarget.style.borderBottom = "2px solid #000")
           }
@@ -694,6 +731,20 @@ const Welcome = () => {
             </p>
           </div>
 
+          {submitStatus.message && (
+            <div style={{
+              padding: '12px 16px',
+              borderRadius: '8px',
+              marginBottom: '20px',
+              backgroundColor: submitStatus.type === 'success' ? '#d1fae5' : '#fee2e2',
+              color: submitStatus.type === 'success' ? '#065f46' : '#991b1b',
+              fontSize: '14px',
+              textAlign: 'center'
+            }}>
+              {submitStatus.message}
+            </div>
+          )}
+
           <form style={styles.contactForm} onSubmit={handleSubmit}>
             <div style={styles.formGroup}>
               <label htmlFor="name" style={styles.label}>
@@ -748,19 +799,22 @@ const Welcome = () => {
             <button
               type="submit"
               style={styles.submitButton}
+              disabled={isSubmitting}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "#333";
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow =
-                  "0 4px 12px rgba(0,0,0,0.2)";
+                if (!isSubmitting) {
+                  e.currentTarget.style.backgroundColor = "#333";
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow =
+                    "0 4px 12px rgba(0,0,0,0.2)";
+                }
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "#000";
+                e.currentTarget.style.backgroundColor = isSubmitting ? "#666" : "#000";
                 e.currentTarget.style.transform = "translateY(0)";
                 e.currentTarget.style.boxShadow = "none";
               }}
             >
-              Send Message
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         </div>

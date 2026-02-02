@@ -71,9 +71,13 @@ const Signup = () => {
                 // Clear form
                 setFormData({ fullName: "", email: "", password: "", role: "client" });
 
-                // Redirect to home page after 1.5 seconds
+                // Redirect based on role after 1.5 seconds
                 setTimeout(() => {
-                    navigate("/");
+                    if (response.user.role === 'tester') {
+                        navigate("/tester-dashboard");
+                    } else {
+                        navigate("/dashboard");
+                    }
                 }, 1500);
             }
         } catch (err) {
@@ -102,9 +106,13 @@ const Signup = () => {
                 // Clear form
                 setLoginData({ email: "", password: "" });
 
-                // Redirect to home page after 1.5 seconds
+                // Redirect based on role after 1.5 seconds
                 setTimeout(() => {
-                    navigate("/");
+                    if (response.user.role === 'tester') {
+                        navigate("/tester-dashboard");
+                    } else {
+                        navigate("/dashboard");
+                    }
                 }, 1500);
             }
         } catch (err) {
@@ -389,7 +397,8 @@ const Signup = () => {
                             onChange={handleChange}
                         >
                             <option value="client">Client</option>
-                            <option value="developer">Developer / Tester</option>
+                            <option value="developer">Developer</option>
+                            <option value="tester">Tester</option>
                         </select>
 
                         <button style={styles.button} type="submit" disabled={loading}>

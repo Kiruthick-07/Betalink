@@ -2,26 +2,39 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 
 // Load environment variables
 dotenv.config();
 
 // Import routes
 const authRoutes = require('./routes/auth');
+const appRoutes = require('./routes/appRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
+const chatRoutes = require('./routes/chatRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 // Initialize express app
 const app = express();
 
 // Middleware
 app.use(cors({
-    origin: 'http://localhost:5173', // Vite dev server
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175'], // Vite dev server urls
     credentials: true,
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
+// Static folder for uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/apps', appRoutes);
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Health check route
 app.get('/api/health', (req, res) => {

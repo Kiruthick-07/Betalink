@@ -55,4 +55,68 @@ export const authAPI = {
     },
 };
 
+// App API
+export const appAPI = {
+    uploadApp: async (formData) => {
+        try {
+            const response = await api.post('/apps', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Upload failed' };
+        }
+    },
+    getApps: async (mode = '') => {
+        try {
+            const response = await api.get(`/apps${mode ? `?mode=${mode}` : ''}`);
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Failed to fetch apps' };
+        }
+    }
+};
+
+// Review API
+export const reviewAPI = {
+    getReviews: async (appId) => {
+        try {
+            const response = await api.get(`/reviews/${appId}`);
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Failed to fetch reviews' };
+        }
+    },
+    addReview: async (reviewData) => {
+        try {
+            const response = await api.post('/reviews', reviewData);
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Failed to add review' };
+        }
+    }
+};
+
+// Chat API
+export const chatAPI = {
+    getMessages: async (userId) => {
+        try {
+            const response = await api.get(`/chat/${userId}`);
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Failed to fetch messages' };
+        }
+    },
+    sendMessage: async (messageData) => {
+        try {
+            const response = await api.post('/chat', messageData);
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Failed to send message' };
+        }
+    }
+};
+
 export default api;
