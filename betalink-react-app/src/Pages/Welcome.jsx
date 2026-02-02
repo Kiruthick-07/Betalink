@@ -13,6 +13,7 @@ const Welcome = () => {
   }, []);
 
   const styles = {
+    /* ================= NAVBAR ================= */
     navbar: {
       position: "relative",
       display: "flex",
@@ -22,6 +23,7 @@ const Welcome = () => {
       borderBottom: "1px solid #e5e5e5",
       fontFamily: "'Poppins', sans-serif",
       backgroundColor: "#fff",
+      zIndex: 10,
     },
 
     leftGroup: {
@@ -30,21 +32,8 @@ const Welcome = () => {
       gap: "14px",
     },
 
-    hamburger: {
-      fontSize: "24px",
-      cursor: "pointer",
-      display: isMobile ? "block" : "none",
-      marginLeft: "auto",
-    },
-
-    rightGroup: {
-      display: "flex",
-      alignItems: "center",
-      gap: "30px",
-    },
-
     logoImage: {
-      height: "44px", // visible & premium
+      height: "44px",
       width: "auto",
       objectFit: "contain",
     },
@@ -54,114 +43,161 @@ const Welcome = () => {
       left: "50%",
       transform: "translateX(-50%)",
       display: isMobile ? "none" : "flex",
-      gap: "45px",
+      gap: "40px",
       fontSize: "14px",
+      fontWeight: "500",
     },
 
     link: {
       cursor: "pointer",
       whiteSpace: "nowrap",
       paddingBottom: "4px",
+      borderBottom: "2px solid transparent",
+      transition: "border-bottom 0.3s ease",
     },
 
-    rightSection: {
-      display: isMobile ? "none" : "flex",
+    rightGroup: {
+      display: "flex",
       alignItems: "center",
-      gap: "30px",
-      fontSize: "14px",
+      gap: "24px",
     },
 
     login: {
       cursor: "pointer",
       fontWeight: "600",
       fontSize: "14px",
-      borderStyle: "solid",
-      borderWidth: "2px",
-      borderColor: "#000",
-      padding: "10px 20px",
-      borderRadius: "10px",
+      border: "2px solid #000",
+      padding: "8px 18px",
+      borderRadius: "8px",
     },
 
     signup: {
-      backgroundColor: "#000000ff",
+      backgroundColor: "#000",
       color: "#fff",
-      padding: "10px 20px",
-      borderRadius: "10px",
+      padding: "10px 22px",
+      borderRadius: "8px",
       fontWeight: "600",
       cursor: "pointer",
       fontSize: "14px",
     },
 
+    hamburger: {
+      fontSize: "24px",
+      cursor: "pointer",
+      display: isMobile ? "block" : "none",
+    },
+
     mobileMenu: {
       display: menuOpen ? "flex" : "none",
       flexDirection: "column",
-      gap: "18px",
+      gap: "16px",
       padding: "20px",
       backgroundColor: "#fff",
       borderBottom: "1px solid #e5e5e5",
       fontSize: "14px",
+      fontFamily: "'Poppins', sans-serif",
     },
-    herosection: {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      marginTop: "30px",
-      padding: "20px",
+
+    /* ================= HERO ================= */
+    heroSection: {
+      position: "relative",
+      width: "100%",
     },
-    heroimg: {
+
+    heroImage: {
       height: "600px",
-      width: "90%",
-      maxWidth: "1500px",
+      width: "100%",
       objectFit: "cover",
-      borderRadius: "12px",
+      display: "block",
+    },
+
+    heroOverlay: {
+      position: "absolute",
+      inset: 0,
+      backgroundColor: "rgba(0,0,0,0.55)",
+    },
+
+    heroContent: {
+      position: "absolute",
+      top: "50%",
+      left: isMobile ? "20px" : "60px",
+      transform: "translateY(-50%)",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      gap: isMobile ? "16px" : "20px",
+      maxWidth: isMobile ? "90%" : "720px",
+      color: "#fff",
+      zIndex: 2,
+      fontFamily: "'Poppins', sans-serif",
+    },
+
+    heroTitle: {
+      fontSize: isMobile ? "26px" : "48px",
+      fontWeight: "700",
+      lineHeight: "1.25",
+      textShadow: "2px 2px 8px rgba(0,0,0,0.6)",
+    },
+
+    heroSubtext: {
+      fontSize: isMobile ? "15px" : "18px",
+      fontWeight: "400",
+      lineHeight: "1.6",
+      color: "#e5e7eb",
+      maxWidth: "640px",
+    },
+
+    heroButton: {
+      marginTop: "12px",
+      backgroundColor: "#000",
+      color: "#fff",
+      padding: isMobile ? "12px 28px" : "14px 32px",
+      fontSize: isMobile ? "14px" : "16px",
+      fontWeight: "600",
+      borderRadius: "8px",
+      border: "none",
+      cursor: "pointer",
+      transition: "all 0.3s ease",
     },
   };
 
-  const NavLinks = () => (
-    <>
-      {["Home", "Find Tester", "Find Developer", "About", "Contact"].map(
-        (item) => (
-          <div
-            key={item}
-            style={styles.link}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.borderBottom = "2px solid #000")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.borderBottom = "2px solid transparent")
-            }
-          >
-            {item}
-          </div>
-        )
-      )}
-    </>
-  );
+  const NavLinks = () =>
+    ["Home", "Find Tester", "Find Developer", "About", "Contact"].map(
+      (item) => (
+        <div
+          key={item}
+          style={styles.link}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.borderBottom = "2px solid #000")
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.borderBottom = "2px solid transparent")
+          }
+        >
+          {item}
+        </div>
+      )
+    );
 
   return (
     <>
-      {/* Navbar */}
+      {/* NAVBAR */}
       <div style={styles.navbar}>
-        {/* Left */}
         <div style={styles.leftGroup}>
-          <img
-            src={logo2}
-            alt="BetaLink Logo"
-            style={styles.logoImage}
-          />
+          <img src={logo2} alt="BetaLink Logo" style={styles.logoImage} />
         </div>
 
-        {/* Center (Desktop) */}
         <div style={styles.centerSection}>
           <NavLinks />
         </div>
 
-        {/* Right (Desktop) */}
         <div style={styles.rightGroup}>
-          <div style={styles.rightSection}>
-            <div style={styles.login}>Log in</div>
-            <div style={styles.signup}>Sign up</div>
-          </div>
+          {!isMobile && (
+            <>
+              <div style={styles.login}>Log in</div>
+              <div style={styles.signup}>Sign up</div>
+            </>
+          )}
           <div
             style={styles.hamburger}
             onClick={() => setMenuOpen(!menuOpen)}
@@ -171,15 +207,45 @@ const Welcome = () => {
         </div>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* MOBILE MENU */}
       <div style={styles.mobileMenu}>
         <NavLinks />
         <div style={styles.login}>Log in</div>
         <div style={styles.signup}>Sign up</div>
       </div>
 
-      <div style={styles.herosection}>
-        <img src={bgimg1} style={styles.heroimg} alt="Hero" />
+      {/* HERO */}
+      <div style={styles.heroSection}>
+        <img src={bgimg1} alt="Hero" style={styles.heroImage} />
+        <div style={styles.heroOverlay}></div>
+
+        <div style={styles.heroContent}>
+          <div style={styles.heroTitle}>
+            Build. Test. Launch — With Confidence.
+          </div>
+
+          <div style={styles.heroSubtext}>
+            Launch better products by connecting with real users who test,
+            report bugs, and give actionable feedback before you go live.
+          </div>
+
+          <button
+            style={styles.heroButton}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = "#333";
+              e.currentTarget.style.transform = "translateY(-2px)";
+              e.currentTarget.style.boxShadow =
+                "0 4px 12px rgba(0,0,0,0.3)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "#000";
+              e.currentTarget.style.transform = "translateY(0)";
+              e.currentTarget.style.boxShadow = "none";
+            }}
+          >
+            Get Started
+          </button>
+        </div>
       </div>
     </>
   );
