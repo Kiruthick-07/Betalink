@@ -83,7 +83,7 @@ const Welcome = () => {
     },
 
     signup: {
-      backgroundColor: "#14a800",
+      backgroundColor: "#000000ff",
       color: "#fff",
       padding: "10px 20px",
       borderRadius: "10px",
