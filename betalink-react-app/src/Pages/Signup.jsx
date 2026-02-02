@@ -1,12 +1,18 @@
 import { useState, useEffect, } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo2 from "../assets/logo2.png";
+import { authAPI } from "../services/api";
+import { setToken, setUser } from "../utils/auth";
 
 const Signup = () => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     const location = useLocation();
+    const navigate = useNavigate();
     // Determine initial mode based on URL path
     const [isSignUpMode, setIsSignUpMode] = useState(location.pathname === "/signup");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
 
     useEffect(() => {
         setIsSignUpMode(location.pathname === "/signup");
@@ -16,7 +22,7 @@ const Signup = () => {
         fullName: "",
         email: "",
         password: "",
-        role: "tester",
+        role: "client",
     });
 
     const [loginData, setLoginData] = useState({
@@ -46,14 +52,66 @@ const Signup = () => {
         }));
     };
 
-    const handleSignupSubmit = (e) => {
+    const handleSignupSubmit = async (e) => {
         e.preventDefault();
-        console.log("Signup submitted:", formData);
+        setLoading(true);
+        setError("");
+        setSuccess("");
+
+        try {
+            const response = await authAPI.signup(formData);
+
+            if (response.success) {
+                // Store token and user data
+                setToken(response.token);
+                setUser(response.user);
+
+                setSuccess("Account created successfully! Redirecting...");
+
+                // Clear form
+                setFormData({ fullName: "", email: "", password: "", role: "client" });
+
+                // Redirect to home page after 1.5 seconds
+                setTimeout(() => {
+                    navigate("/");
+                }, 1500);
+            }
+        } catch (err) {
+            setError(err.message || "Signup failed. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleLoginSubmit = (e) => {
+    const handleLoginSubmit = async (e) => {
         e.preventDefault();
-        console.log("Login submitted:", loginData);
+        setLoading(true);
+        setError("");
+        setSuccess("");
+
+        try {
+            const response = await authAPI.login(loginData);
+
+            if (response.success) {
+                // Store token and user data
+                setToken(response.token);
+                setUser(response.user);
+
+                setSuccess("Login successful! Redirecting...");
+
+                // Clear form
+                setLoginData({ email: "", password: "" });
+
+                // Redirect to home page after 1.5 seconds
+                setTimeout(() => {
+                    navigate("/");
+                }, 1500);
+            }
+        } catch (err) {
+            setError(err.message || "Login failed. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     const toggleMode = () => {
@@ -268,6 +326,35 @@ const Signup = () => {
                     <form style={styles.form} onSubmit={handleSignupSubmit}>
                         <img src={logo2} alt="BetaLink Logo" style={styles.logo} />
                         <h1 style={styles.header}>Create Account</h1>
+
+                        {/* Error Message */}
+                        {error && (
+                            <div style={{
+                                backgroundColor: "#fee",
+                                color: "#c33",
+                                padding: "10px",
+                                borderRadius: "4px",
+                                fontSize: "14px",
+                                marginBottom: "10px",
+                            }}>
+                                {error}
+                            </div>
+                        )}
+
+                        {/* Success Message */}
+                        {success && (
+                            <div style={{
+                                backgroundColor: "#efe",
+                                color: "#3c3",
+                                padding: "10px",
+                                borderRadius: "4px",
+                                fontSize: "14px",
+                                marginBottom: "10px",
+                            }}>
+                                {success}
+                            </div>
+                        )}
+
                         <input
                             type="text"
                             name="fullName"
@@ -305,7 +392,9 @@ const Signup = () => {
                             <option value="developer">Developer / Tester</option>
                         </select>
 
-                        <button style={styles.button} type="submit">Sign Up</button>
+                        <button style={styles.button} type="submit" disabled={loading}>
+                            {loading ? "Signing up..." : "Sign Up"}
+                        </button>
 
                         {/* Mobile Only Switch */}
                         <div style={styles.mobileToggle} onClick={toggleMode}>
@@ -323,6 +412,35 @@ const Signup = () => {
                     <form style={styles.form} onSubmit={handleLoginSubmit}>
                         <img src={logo2} alt="BetaLink Logo" style={styles.logo} />
                         <h1 style={styles.header}>Sign in</h1>
+
+                        {/* Error Message */}
+                        {error && (
+                            <div style={{
+                                backgroundColor: "#fee",
+                                color: "#c33",
+                                padding: "10px",
+                                borderRadius: "4px",
+                                fontSize: "14px",
+                                marginBottom: "10px",
+                            }}>
+                                {error}
+                            </div>
+                        )}
+
+                        {/* Success Message */}
+                        {success && (
+                            <div style={{
+                                backgroundColor: "#efe",
+                                color: "#3c3",
+                                padding: "10px",
+                                borderRadius: "4px",
+                                fontSize: "14px",
+                                marginBottom: "10px",
+                            }}>
+                                {success}
+                            </div>
+                        )}
+
                         <input
                             type="email"
                             name="email"
@@ -341,7 +459,9 @@ const Signup = () => {
                             onChange={handleLoginChange}
                             required
                         />
-                        <button style={styles.button} type="submit">Sign In</button>
+                        <button style={styles.button} type="submit" disabled={loading}>
+                            {loading ? "Signing in..." : "Sign In"}
+                        </button>
 
                         {/* Mobile Only Switch */}
                         <div style={styles.mobileToggle} onClick={toggleMode}>
