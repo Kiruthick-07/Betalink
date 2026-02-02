@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import logo from "../assets/logo.png";
+import logo2 from "../assets/logo2.png";
 
 const Welcome = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -73,6 +74,12 @@ const Welcome = () => {
     login: {
       cursor: "pointer",
       fontWeight: "600",
+      fontSize: "14px",
+      borderStyle: "solid",
+      borderWidth: "2px",
+      borderColor: "#000",
+      padding: "10px 20px",
+      borderRadius: "10px",
     },
 
     signup: {
@@ -82,6 +89,7 @@ const Welcome = () => {
       borderRadius: "10px",
       fontWeight: "600",
       cursor: "pointer",
+      fontSize: "14px",
     },
 
     mobileMenu: {
@@ -123,7 +131,7 @@ const Welcome = () => {
         {/* Left */}
         <div style={styles.leftGroup}>
           <img
-            src={logo}
+            src={logo2}
             alt="BetaLink Logo"
             style={styles.logoImage}
           />
