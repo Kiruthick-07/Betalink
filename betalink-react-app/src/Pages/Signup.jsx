@@ -13,8 +13,11 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+<<<<<<< HEAD
     const [showTermsModal, setShowTermsModal] = useState(false);
     const [agreedToTerms, setAgreedToTerms] = useState(false);
+=======
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
 
     useEffect(() => {
         setIsSignUpMode(location.pathname === "/signup");
@@ -60,12 +63,15 @@ const Signup = () => {
         setError("");
         setSuccess("");
 
+<<<<<<< HEAD
         if (!agreedToTerms) {
             setError("Please agree to the Terms and Conditions");
             setLoading(false);
             return;
         }
 
+=======
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
         try {
             const response = await authAPI.signup(formData);
 
@@ -79,6 +85,7 @@ const Signup = () => {
                 // Clear form
                 setFormData({ fullName: "", email: "", password: "", role: "client" });
 
+<<<<<<< HEAD
                 // Redirect based on role after 1.5 seconds
                 setTimeout(() => {
                     if (response.user.role === 'developer') {
@@ -86,6 +93,11 @@ const Signup = () => {
                     } else {
                         navigate("/tester-dashboard");
                     }
+=======
+                // Redirect to home page after 1.5 seconds
+                setTimeout(() => {
+                    navigate("/");
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
                 }, 1500);
             }
         } catch (err) {
@@ -101,12 +113,15 @@ const Signup = () => {
         setError("");
         setSuccess("");
 
+<<<<<<< HEAD
         if (!agreedToTerms) {
             setError("Please agree to the Terms and Conditions");
             setLoading(false);
             return;
         }
 
+=======
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
         try {
             const response = await authAPI.login(loginData);
 
@@ -120,6 +135,7 @@ const Signup = () => {
                 // Clear form
                 setLoginData({ email: "", password: "" });
 
+<<<<<<< HEAD
                 // Redirect based on role after 1.5 seconds
                 setTimeout(() => {
                     if (response.user.role === 'developer') {
@@ -127,6 +143,11 @@ const Signup = () => {
                     } else {
                         navigate("/tester-dashboard");
                     }
+=======
+                // Redirect to home page after 1.5 seconds
+                setTimeout(() => {
+                    navigate("/");
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
                 }, 1500);
             }
         } catch (err) {
@@ -424,7 +445,11 @@ const Signup = () => {
                         <img src={logo2} alt="BetaLink Logo" style={styles.logo} />
                         <h1 style={styles.header}>Create Account</h1>
 
+<<<<<<< HEAD
                         {/* Error Message - Moved to Top */}
+=======
+                        {/* Error Message */}
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
                         {error && (
                             <div style={{
                                 backgroundColor: "#fee",
@@ -438,7 +463,11 @@ const Signup = () => {
                             </div>
                         )}
 
+<<<<<<< HEAD
                         {/* Success Message - Moved to Top */}
+=======
+                        {/* Success Message */}
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
                         {success && (
                             <div style={{
                                 backgroundColor: "#efe",
@@ -490,6 +519,7 @@ const Signup = () => {
                             
                         </select>
 
+<<<<<<< HEAD
                         {/* Terms and Conditions Checkbox */}
                         <div style={styles.checkboxContainer}>
                             <input
@@ -513,6 +543,8 @@ const Signup = () => {
                             </label>
                         </div>
 
+=======
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
                         <button style={styles.button} type="submit" disabled={loading}>
                             {loading ? "Signing up..." : "Sign Up"}
                         </button>
@@ -534,7 +566,11 @@ const Signup = () => {
                         <img src={logo2} alt="BetaLink Logo" style={styles.logo} />
                         <h1 style={styles.header}>Sign in</h1>
 
+<<<<<<< HEAD
                         {/* Error Message - Moved to Top */}
+=======
+                        {/* Error Message */}
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
                         {error && (
                             <div style={{
                                 backgroundColor: "#fee",
@@ -548,7 +584,11 @@ const Signup = () => {
                             </div>
                         )}
 
+<<<<<<< HEAD
                         {/* Success Message - Moved to Top */}
+=======
+                        {/* Success Message */}
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
                         {success && (
                             <div style={{
                                 backgroundColor: "#efe",
@@ -580,6 +620,7 @@ const Signup = () => {
                             onChange={handleLoginChange}
                             required
                         />
+<<<<<<< HEAD
 
                         {/* Terms and Conditions Checkbox */}
                         <div style={styles.checkboxContainer}>
@@ -604,6 +645,8 @@ const Signup = () => {
                             </label>
                         </div>
 
+=======
+>>>>>>> e478f97b876fa04b2987d34391e21b2b1bd6ff8c
                         <button style={styles.button} type="submit" disabled={loading}>
                             {loading ? "Signing in..." : "Sign In"}
                         </button>

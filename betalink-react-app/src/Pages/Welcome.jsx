@@ -81,7 +81,7 @@ const Welcome = () => {
       left: "50%",
       transform: "translateX(-50%)",
       display: isMobile ? "none" : "flex",
-      gap: "40px",
+      gap: "80px",
       fontSize: "14px",
       fontWeight: "500",
     },
@@ -537,7 +537,7 @@ const Welcome = () => {
   };
 
   const NavLinks = () =>
-    ["Home", "Find Tester", "Find Developer", "About", "Contact"].map(
+    ["Home",  "About", "Contact"].map(
       (item) => (
         <div
           key={item}

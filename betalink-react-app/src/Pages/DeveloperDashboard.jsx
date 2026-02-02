@@ -845,15 +845,6 @@ const DeveloperDashboard = () => {
 
                 <div style={styles.sidebarFooter}>
                     <div
-                        style={styles.navItem}
-                        onClick={() => setShowSettingsModal(true)}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-                    >
-                        <HiCog size={20} />
-                        <span>Settings</span>
-                    </div>
-                    <div
                         style={{ ...styles.navItem, color: 'rgba(255, 255, 255, 0.7)' }}
                         onClick={handleLogout}
                         onMouseEnter={(e) => {
@@ -915,6 +906,7 @@ const DeveloperDashboard = () => {
                 <div style={styles.metricsGrid}>
                     <div 
                         style={styles.metricCard}
+                        onClick={() => setShowModal(true)}
                         onMouseEnter={(e) => {
                             e.currentTarget.style.transform = 'translateY(-4px)';
                             e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.3)';
@@ -935,6 +927,7 @@ const DeveloperDashboard = () => {
 
                     <div 
                         style={styles.metricCard}
+                        onClick={() => setShowMessagesModal(true)}
                         onMouseEnter={(e) => {
                             e.currentTarget.style.transform = 'translateY(-4px)';
                             e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.3)';
@@ -955,26 +948,7 @@ const DeveloperDashboard = () => {
 
                     <div 
                         style={styles.metricCard}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-4px)';
-                            e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.3)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.15)';
-                        }}
-                    >
-                        <div style={styles.metricHeader}>
-                            <div style={styles.metricIcon}>
-                                <HiChatAlt2 />
-                            </div>
-                        </div>
-                        <div style={styles.metricValue}>{totalIssues}</div>
-                        <div style={styles.metricLabel}>Open Issues</div>
-                    </div>
-
-                    <div 
-                        style={styles.metricCard}
+                        onClick={() => setShowAnalytics(true)}
                         onMouseEnter={(e) => {
                             e.currentTarget.style.transform = 'translateY(-4px)';
                             e.currentTarget.style.boxShadow = '0 8px 30px rgba(0, 0, 0, 0.3)';
