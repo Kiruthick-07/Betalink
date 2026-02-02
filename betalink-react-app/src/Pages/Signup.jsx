@@ -73,10 +73,10 @@ const Signup = () => {
 
                 // Redirect based on role after 1.5 seconds
                 setTimeout(() => {
-                    if (response.user.role === 'tester') {
-                        navigate("/tester-dashboard");
-                    } else {
+                    if (response.user.role === 'developer') {
                         navigate("/dashboard");
+                    } else {
+                        navigate("/tester-dashboard");
                     }
                 }, 1500);
             }
@@ -108,10 +108,10 @@ const Signup = () => {
 
                 // Redirect based on role after 1.5 seconds
                 setTimeout(() => {
-                    if (response.user.role === 'tester') {
-                        navigate("/tester-dashboard");
-                    } else {
+                    if (response.user.role === 'developer') {
                         navigate("/dashboard");
+                    } else {
+                        navigate("/tester-dashboard");
                     }
                 }, 1500);
             }
@@ -396,9 +396,9 @@ const Signup = () => {
                             value={formData.role}
                             onChange={handleChange}
                         >
-                            <option value="client">Client</option>
+                            <option value="client">Tester</option>
                             <option value="developer">Developer</option>
-                            <option value="tester">Tester</option>
+                            
                         </select>
 
                         <button style={styles.button} type="submit" disabled={loading}>

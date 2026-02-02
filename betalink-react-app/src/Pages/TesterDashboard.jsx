@@ -25,12 +25,13 @@ const TesterDashboard = () => {
             return;
         }
         
-        // Redirect developers to their dashboard
+        // Redirect only developers to their dashboard
         if (user.role === 'developer') {
             navigate('/dashboard');
             return;
         }
         
+        // Testers and clients can access this dashboard
         fetchApps();
     }, []);
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { appAPI } from '../services/api';
+import { appAPI, chatAPI } from '../services/api';
 import { logout, getUser } from '../utils/auth';
 
 const DeveloperDashboard = () => {
@@ -9,6 +9,8 @@ const DeveloperDashboard = () => {
     const [apps, setApps] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
+    const [conversations, setConversations] = useState([]);
+    const [showMessagesModal, setShowMessagesModal] = useState(false);
 
     // Form state
     const [appData, setAppData] = useState({
@@ -52,6 +54,17 @@ const DeveloperDashboard = () => {
             console.error('Failed to fetch apps', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const fetchConversations = async () => {
+        try {
+            const response = await chatAPI.getConversations();
+            if (response.success) {
+                setConversations(response.conversations);
+            }
+        } catch (error) {
+            console.error('Failed to fetch conversations', error);
         }
     };
 
@@ -255,9 +268,20 @@ const DeveloperDashboard = () => {
                 </div>
                 <div style={styles.controls}>
                     {user?.role === 'developer' && (
-                        <button style={styles.btnPrimary} onClick={() => setShowModal(true)}>
-                            + Add App
-                        </button>
+                        <>
+                            <button style={styles.btnPrimary} onClick={() => setShowModal(true)}>
+                                Add App
+                            </button>
+                            <button 
+                                style={{ ...styles.btnPrimary, backgroundColor: '#8b5cf6' }} 
+                                onClick={() => {
+                                    setShowMessagesModal(true);
+                                    fetchConversations();
+                                }}
+                            >
+                                Messages
+                            </button>
+                        </>
                     )}
                     <button style={styles.btnLogout} onClick={handleLogout}>Logout</button>
                 </div>
@@ -355,6 +379,67 @@ const DeveloperDashboard = () => {
                                 </button>
                             </div>
                         </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Messages Modal */}
+            {showMessagesModal && (
+                <div style={styles.modalOverlay} onClick={() => setShowMessagesModal(false)}>
+                    <div style={{ ...styles.modal, maxWidth: '700px' }} onClick={(e) => e.stopPropagation()}>
+                        <h2 style={styles.modalHeader}>Messages from Testers</h2>
+                        
+                        {conversations.length === 0 ? (
+                            <div style={{ textAlign: 'center', padding: '2rem', color: '#6b7280' }}>
+                                No messages yet
+                            </div>
+                        ) : (
+                            <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
+                                {conversations.map((conv, index) => (
+                                    <div
+                                        key={index}
+                                        style={{
+                                            padding: '1rem',
+                                            borderBottom: '1px solid #e5e7eb',
+                                            cursor: 'pointer',
+                                            transition: 'background 0.2s'
+                                        }}
+                                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                                        onClick={() => {
+                                            setShowMessagesModal(false);
+                                            navigate(`/chat/${conv.partner.id}${conv.app ? `?appId=${conv.app.id}&appTitle=${encodeURIComponent(conv.app.title)}` : ''}`);
+                                        }}
+                                    >
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                                            <div style={{ fontWeight: '600', color: '#111827' }}>
+                                                {conv.partner.fullName}
+                                            </div>
+                                            <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                                                {new Date(conv.lastMessageTime).toLocaleDateString()}
+                                            </div>
+                                        </div>
+                                        {conv.app && (
+                                            <div style={{ fontSize: '0.85rem', color: '#8b5cf6', marginBottom: '0.25rem' }}>
+                                                💬 About: {conv.app.title}
+                                            </div>
+                                        )}
+                                        <div style={{ fontSize: '0.9rem', color: '#6b7280', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                            {conv.lastMessage}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        
+                        <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+                            <button
+                                style={{ ...styles.btnAction, padding: '0.75rem 2rem', backgroundColor: '#e5e7eb' }}
+                                onClick={() => setShowMessagesModal(false)}
+                            >
+                                Close
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}

@@ -101,6 +101,14 @@ export const reviewAPI = {
 
 // Chat API
 export const chatAPI = {
+    getConversations: async () => {
+        try {
+            const response = await api.get('/chat/conversations/list');
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Failed to fetch conversations' };
+        }
+    },
     getMessages: async (userId) => {
         try {
             const response = await api.get(`/chat/${userId}`);
