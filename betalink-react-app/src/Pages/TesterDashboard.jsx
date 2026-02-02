@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { appAPI, reviewAPI } from '../services/api';
 import { logout, getUser } from '../utils/auth';
+import logo2 from '../assets/logo2.png';
 
 const TesterDashboard = () => {
     const navigate = useNavigate();
@@ -359,9 +360,12 @@ const TesterDashboard = () => {
     return (
         <div style={styles.container}>
             <div style={styles.header}>
-                <div>
-                    <div style={styles.title}>Tester Dashboard</div>
-                    <div style={styles.subtitle}>Welcome, {user?.fullName}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    <img src={logo2} alt="BetaLink Logo" style={{ height: '44px', width: 'auto' }} />
+                    <div>
+                        <div style={styles.title}>Tester Dashboard</div>
+                        <div style={styles.subtitle}>Welcome, {user?.fullName}</div>
+                    </div>
                 </div>
                 <button style={styles.btnLogout} onClick={handleLogout}>
                     Logout

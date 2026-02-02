@@ -13,6 +13,8 @@ const Signup = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [showTermsModal, setShowTermsModal] = useState(false);
+    const [agreedToTerms, setAgreedToTerms] = useState(false);
 
     useEffect(() => {
         setIsSignUpMode(location.pathname === "/signup");
@@ -58,6 +60,12 @@ const Signup = () => {
         setError("");
         setSuccess("");
 
+        if (!agreedToTerms) {
+            setError("Please agree to the Terms and Conditions");
+            setLoading(false);
+            return;
+        }
+
         try {
             const response = await authAPI.signup(formData);
 
@@ -92,6 +100,12 @@ const Signup = () => {
         setLoading(true);
         setError("");
         setSuccess("");
+
+        if (!agreedToTerms) {
+            setError("Please agree to the Terms and Conditions");
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await authAPI.login(loginData);
@@ -322,7 +336,82 @@ const Signup = () => {
             color: "#666",
             textDecoration: "none",
             cursor: "pointer",
-        }
+        },
+        checkboxContainer: {
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            margin: "12px 0",
+            fontSize: "13px",
+            textAlign: "left",
+        },
+        termsLink: {
+            color: "#000",
+            textDecoration: "underline",
+            cursor: "pointer",
+            fontWeight: "600",
+        },
+        modalOverlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 10000,
+            padding: "1rem",
+        },
+        modal: {
+            backgroundColor: "#fff",
+            borderRadius: "16px",
+            width: "90%",
+            maxWidth: "700px",
+            maxHeight: "85vh",
+            overflow: "hidden",
+            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+        },
+        modalHeader: {
+            padding: "1.5rem 2rem",
+            borderBottom: "1px solid #e2e8f0",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+        },
+        modalTitle: {
+            fontSize: "1.5rem",
+            fontWeight: "700",
+            color: "#000",
+        },
+        modalBody: {
+            padding: "2rem",
+            maxHeight: "60vh",
+            overflowY: "auto",
+        },
+        modalActions: {
+            padding: "1rem 2rem",
+            borderTop: "1px solid #e2e8f0",
+            display: "flex",
+            justifyContent: "flex-end",
+        },
+        modalButton: {
+            backgroundColor: "#000",
+            color: "#fff",
+            border: "none",
+            padding: "10px 24px",
+            borderRadius: "8px",
+            fontWeight: "600",
+            cursor: "pointer",
+            fontSize: "14px",
+        },
+        ol: {
+            paddingLeft: "20px",
+            lineHeight: "1.8",
+            fontSize: "14px",
+            color: "#333",
+        },
     };
 
     return (
@@ -335,7 +424,7 @@ const Signup = () => {
                         <img src={logo2} alt="BetaLink Logo" style={styles.logo} />
                         <h1 style={styles.header}>Create Account</h1>
 
-                        {/* Error Message */}
+                        {/* Error Message - Moved to Top */}
                         {error && (
                             <div style={{
                                 backgroundColor: "#fee",
@@ -349,7 +438,7 @@ const Signup = () => {
                             </div>
                         )}
 
-                        {/* Success Message */}
+                        {/* Success Message - Moved to Top */}
                         {success && (
                             <div style={{
                                 backgroundColor: "#efe",
@@ -401,6 +490,29 @@ const Signup = () => {
                             
                         </select>
 
+                        {/* Terms and Conditions Checkbox */}
+                        <div style={styles.checkboxContainer}>
+                            <input
+                                type="checkbox"
+                                id="termsCheckbox"
+                                checked={agreedToTerms}
+                                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                                style={{ cursor: "pointer" }}
+                            />
+                            <label htmlFor="termsCheckbox" style={{ cursor: "pointer", color: "#333" }}>
+                                I agree to the{" "}
+                                <span 
+                                    style={styles.termsLink}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setShowTermsModal(true);
+                                    }}
+                                >
+                                    Terms and Conditions
+                                </span>
+                            </label>
+                        </div>
+
                         <button style={styles.button} type="submit" disabled={loading}>
                             {loading ? "Signing up..." : "Sign Up"}
                         </button>
@@ -422,7 +534,7 @@ const Signup = () => {
                         <img src={logo2} alt="BetaLink Logo" style={styles.logo} />
                         <h1 style={styles.header}>Sign in</h1>
 
-                        {/* Error Message */}
+                        {/* Error Message - Moved to Top */}
                         {error && (
                             <div style={{
                                 backgroundColor: "#fee",
@@ -436,7 +548,7 @@ const Signup = () => {
                             </div>
                         )}
 
-                        {/* Success Message */}
+                        {/* Success Message - Moved to Top */}
                         {success && (
                             <div style={{
                                 backgroundColor: "#efe",
@@ -468,6 +580,30 @@ const Signup = () => {
                             onChange={handleLoginChange}
                             required
                         />
+
+                        {/* Terms and Conditions Checkbox */}
+                        <div style={styles.checkboxContainer}>
+                            <input
+                                type="checkbox"
+                                id="termsCheckboxLogin"
+                                checked={agreedToTerms}
+                                onChange={(e) => setAgreedToTerms(e.target.checked)}
+                                style={{ cursor: "pointer" }}
+                            />
+                            <label htmlFor="termsCheckboxLogin" style={{ cursor: "pointer", color: "#333" }}>
+                                I agree to the{" "}
+                                <span 
+                                    style={styles.termsLink}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setShowTermsModal(true);
+                                    }}
+                                >
+                                    Terms and Conditions
+                                </span>
+                            </label>
+                        </div>
+
                         <button style={styles.button} type="submit" disabled={loading}>
                             {loading ? "Signing in..." : "Sign In"}
                         </button>
@@ -512,6 +648,55 @@ const Signup = () => {
                 </div>
 
             </div>
+
+            {/* Terms and Conditions Modal */}
+            {showTermsModal && (
+                <div style={styles.modalOverlay} onClick={() => setShowTermsModal(false)}>
+                    <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+                        <div style={styles.modalHeader}>
+                            <h2 style={styles.modalTitle}>Terms and Conditions</h2>
+                            <button
+                                onClick={() => setShowTermsModal(false)}
+                                style={{
+                                    background: "none",
+                                    border: "none",
+                                    fontSize: "24px",
+                                    cursor: "pointer",
+                                    color: "#666",
+                                }}
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div style={styles.modalBody}>
+                            <div style={{ maxHeight: '68vh', overflowY: 'auto', paddingRight: 8 }}>
+                                <ol style={styles.ol}>
+                                    <li><strong>Acceptance of Terms</strong>: By creating an account or using this platform, you confirm that you have read, understood, and agreed to these Terms and Conditions. If you do not agree, please do not use the application.</li>
+                                    <li><strong>Purpose of the Platform</strong>: BetaLink is a bug testing and reporting platform where developers upload applications for testing, testers identify bugs and submit reports, and the platform is intended only for educational, testing, and evaluation purposes.</li>
+                                    <li><strong>User Responsibilities</strong>: All users agree to provide accurate and truthful information, use the platform only for lawful and ethical purposes, not upload malicious software or harmful code, and not misuse or exploit the platform or its users.</li>
+                                    <li><strong>Developer Responsibilities</strong>: Developers agree they have full rights to upload the application, uploaded applications are safe for testing, they will fairly review and evaluate bug reports, and will not intentionally ignore, reject, or misuse valid bug reports to avoid rewards.</li>
+                                    <li><strong>Tester Responsibilities</strong>: Testers agree that bug reports must be genuine, reproducible, and clearly explained; no false, spam, or copied reports will be submitted; confidential data accessed during testing will not be shared.</li>
+                                    <li><strong>Rewards &amp; Fair Usage Policy</strong>: If a tester submits a valid and verified bug report, the developer must not deny or withhold the promised reward without a valid reason. BetaLink may review disputes and may issue warnings, suspend accounts, or restrict posting for repeated unfair practices.</li>
+                                    <li><strong>Intellectual Property</strong>: All applications and reports belong to their respective owners. BetaLink does not claim ownership of uploaded apps or bug reports. Users may not copy or redistribute content without permission.</li>
+                                    <li><strong>Data &amp; Privacy</strong>: User data is collected only to support platform functionality. Personal data will not be sold or misused. Uploaded files and reports may be stored for platform improvement.</li>
+                                    <li><strong>Limitation of Liability</strong>: BetaLink is provided "as is" without warranties. We are not responsible for data loss, application failures, security issues within uploaded apps, or any damages caused by platform usage.</li>
+                                    <li><strong>Account Suspension &amp; Termination</strong>: Accounts may be suspended or terminated if users violate these Terms &amp; Conditions, engage in unethical behavior, or attempt to cheat, exploit, or harm other users.</li>
+                                    <li><strong>Changes to Terms</strong>: BetaLink reserves the right to update these Terms at any time. Continued use implies acceptance of the revised terms.</li>
+                                    <li><strong>Governing Law</strong>: These Terms are governed by the laws of India.</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div style={styles.modalActions}>
+                            <button
+                                style={styles.modalButton}
+                                onClick={() => setShowTermsModal(false)}
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

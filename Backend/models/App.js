@@ -23,6 +23,10 @@ const appSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    downloads: {
+        type: Number,
+        default: 0
+    },
     createdAt: {
         type: Date,
         default: Date.now

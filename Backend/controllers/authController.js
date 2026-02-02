@@ -179,3 +179,51 @@ exports.verifyToken = async (req, res) => {
         });
     }
 };
+
+// @desc    Update user profile
+// @route   PUT /api/auth/profile
+// @access  Private
+exports.updateProfile = async (req, res) => {
+    try {
+        const { fullName } = req.body;
+        const user = await User.findById(req.userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found',
+            });
+        }
+
+        // Update full name
+        if (fullName) {
+            user.fullName = fullName;
+        }
+
+        // Update profile picture if uploaded
+        if (req.file) {
+            user.profilePic = req.file.path;
+        }
+
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: 'Profile updated successfully',
+            user: {
+                id: user._id,
+                fullName: user.fullName,
+                email: user.email,
+                role: user.role,
+                profilePic: user.profilePic,
+            },
+        });
+    } catch (error) {
+        console.error('Update profile error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Server error during profile update',
+            error: error.message,
+        });
+    }
+};

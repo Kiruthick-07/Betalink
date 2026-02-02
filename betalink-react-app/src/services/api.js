@@ -53,6 +53,20 @@ export const authAPI = {
             throw error.response?.data || { message: 'Token verification failed' };
         }
     },
+
+    // Update profile
+    updateProfile: async (formData) => {
+        try {
+            const response = await api.put('/auth/profile', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Profile update failed' };
+        }
+    },
 };
 
 // App API
@@ -75,6 +89,18 @@ export const appAPI = {
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Failed to fetch apps' };
+        }
+    },
+    deleteApp: async (appId) => {
+        try {
+            console.log('API: Deleting app with ID:', appId);
+            const response = await api.delete(`/apps/${appId}`);
+            console.log('API: Delete response:', response.data);
+            return response.data;
+        } catch (error) {
+            console.error('API: Delete failed:', error);
+            console.error('API: Error response:', error.response);
+            throw error.response?.data || { message: error.message || 'Failed to delete app' };
         }
     }
 };

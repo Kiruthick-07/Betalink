@@ -48,6 +48,12 @@ router.get('/conversations/list', authMiddleware, async (req, res) => {
                     unreadCount: 0
                 });
             }
+            
+            // Count unread messages from partner
+            if (msg.recipient._id.toString() === currentUserId.toString() && !msg.read) {
+                const conv = conversationsMap.get(partnerId);
+                conv.unreadCount++;
+            }
         });
 
         const conversations = Array.from(conversationsMap.values());
@@ -80,6 +86,16 @@ router.get('/:userId', authMiddleware, async (req, res) => {
             .populate('sender', 'fullName')
             .populate('recipient', 'fullName')
             .populate('app', 'title');
+
+        // Mark messages from other user as read
+        await Message.updateMany(
+            { 
+                sender: otherUserId, 
+                recipient: currentUserId, 
+                read: false 
+            },
+            { read: true }
+        );
 
         res.status(200).json({
             success: true,

@@ -107,6 +107,9 @@ router.get('/download/:appId', authMiddleware, async (req, res) => {
             return res.status(404).json({ success: false, message: 'APK file not found' });
         }
 
+        // Increment download count
+        await App.findByIdAndUpdate(req.params.appId, { $inc: { downloads: 1 } });
+
         res.download(filePath, `${app.title}.apk`, (err) => {
             if (err) {
                 console.error('Download error:', err);
@@ -116,6 +119,49 @@ router.get('/download/:appId', authMiddleware, async (req, res) => {
     } catch (error) {
         console.error('Download app error:', error);
         res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+// @route   DELETE /api/apps/:appId
+// @desc    Delete an app
+// @access  Private (Developer only)
+router.delete('/:appId', authMiddleware, async (req, res) => {
+    console.log('DELETE request received for app:', req.params.appId);
+    console.log('User ID:', req.userId);
+    try {
+        const app = await App.findById(req.params.appId);
+        
+        if (!app) {
+            console.log('App not found:', req.params.appId);
+            return res.status(404).json({ success: false, message: 'App not found' });
+        }
+
+        console.log('App found:', app.title);
+        console.log('App developer:', app.developer.toString());
+        console.log('Request user:', req.userId);
+
+        // Check if the user is the owner of the app
+        if (app.developer.toString() !== req.userId) {
+            console.log('User not authorized to delete');
+            return res.status(403).json({ success: false, message: 'Not authorized to delete this app' });
+        }
+
+        // Delete the APK file from the filesystem
+        const filePath = path.join(__dirname, '..', app.apkPath);
+        console.log('Deleting file:', filePath);
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+            console.log('File deleted successfully');
+        }
+
+        // Delete the app from database
+        await App.findByIdAndDelete(req.params.appId);
+        console.log('App deleted from database');
+
+        res.json({ success: true, message: 'App deleted successfully' });
+    } catch (error) {
+        console.error('Delete error:', error);
+        res.status(500).json({ success: false, message: 'Server error', error: error.message });
     }
 });
 
